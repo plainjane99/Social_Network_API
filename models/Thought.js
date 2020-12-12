@@ -46,7 +46,7 @@ const ThoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            // get: createdAtVal => dateFormat(createdAtVal)
+            get: createdAtVal => dateFormat(createdAtVal)
         },
         username: {
             type: String,
@@ -57,13 +57,13 @@ const ThoughtSchema = new Schema(
         // reactions will be nested directly in a thought's document and not referred to
         // reactions: [ReactionSchema]
     },
-    // {
-    //     toJSON: {
-    //         virtuals: true,
-    //         getters: true
-    //     },
-    //     id: false
-    // }
+    {
+        toJSON: {
+            // virtuals: true,
+            getters: true
+        },
+        id: false
+    }
 );
 
 // ThoughtSchema.virtual('reactionCount').get(function () {
