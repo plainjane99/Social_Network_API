@@ -13,7 +13,7 @@ const thoughtController = {
     },
 
     // get a single thought by id
-    getThoughtById(req, res) {
+    getThoughtById({ params, body }, res) {
         Thought.findOne({ _id: params.id })
             .select('-__v')
             .then(dbThoughtData => res.json(dbThoughtData))
@@ -23,17 +23,14 @@ const thoughtController = {
     },
 
     // add Thought to specific User id
-    addThought(req, res) {
-
-    // addThought({ params, body }, res) {
-        // console.log(params);
+    addThought({ params, body }, res) {
         // create the Thought object...
-        Thought.create(req.body)
+        Thought.create(body)
             // ...then pull out the new id from the Thought object...
             .then(({ _id }) => {
                 // ...and add it to our associated User object...
                 return User.findOneAndUpdate(
-                    { _id: req.params.userId },
+                    { _id: params.userId },
                     // 'push' to thoughts array
                     { $push: { thoughts: _id } },
                     // return updated User object with Thought 
@@ -53,7 +50,7 @@ const thoughtController = {
 
     // update a Thought
     updateThought({ params, body }, res) {
-        Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
+        Thought.findOneAndUpdate({ _id: params.thoughtId }, body, { new: true })
             .then(dbThoughtData => {
                 if (!dbThoughtData) {
                     res.status(404).json({ message: 'There is no thought with this id!' });
@@ -67,7 +64,7 @@ const thoughtController = {
     // remove a Thought from the database but also from the User object
     removeThought({ params }, res) {
         // finds the Thought document while also returns the data
-        Thought.findOneAndDelete({ _id: params.ThoughtId })
+        Thought.findOneAndDelete({ _id: params.thoughtId })
             // deletes the Thought by id...
             .then(deletedThought => {
                 if (!deletedThought) {
@@ -75,9 +72,9 @@ const thoughtController = {
                 }
                 // ...then takes the returned data and removes it from the User object
                 return User.findOneAndUpdate(
-                    { _id: params.UserId },
+                    { _id: params.userId },
                     // 'pull' function to remove the data
-                    { $pull: { Thoughts: params.ThoughtId } },
+                    { $pull: { thoughts: params.thoughtId } },
                     // return the updated User object that does not have the deleted Thought
                     { new: true }
                 );
