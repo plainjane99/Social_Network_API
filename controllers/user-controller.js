@@ -20,7 +20,6 @@ const userController = {
             .select('-__v')
             .then(dbUserData => res.json(dbUserData))
             .catch(err => {
-                console.log(err);
                 res.status(400).json(err);
             });
     },
