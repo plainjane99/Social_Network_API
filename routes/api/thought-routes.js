@@ -5,9 +5,9 @@ const {
     getThoughtById,
     addThought,
     updateThought,
-    removeThought
-    // addReaction,
-    // removeReaction
+    removeThought,
+    addReaction,
+    removeReaction
 } = require('../../controllers/thought-controllers');
 
 // routes at /api/thoughts
@@ -28,11 +28,13 @@ router
 // routes at /api/thoughts/:userId/:thoughtId
 router
     .route('/:userId/:thoughtId')
-    // .put(addReaction)
+    .put(addReaction)
     .put(updateThought)
     .delete(removeThought);
 
-// include the ids of the parent resources in the endpoint
-// router.route('/:userId/:thoughtId/:reactionId').delete(removeReaction);
+// routes at /api/thoughts/:userId/:thoughtId/:reactionId
+router
+    .route('/:userId/:thoughtId/:reactionId')
+    .delete(removeReaction);
 
 module.exports = router;

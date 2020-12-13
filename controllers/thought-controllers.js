@@ -88,7 +88,43 @@ const thoughtController = {
                 res.json(dbUserData);
             })
             .catch(err => res.json(err));
-    }
+    },
+
+    // add a reaction by updating an existing thought 
+    addReaction({ params, body }, res) {
+        // find thought and update it
+        Thought.findOneAndUpdate(
+            // where statement
+            { _id: params.thoughtId },
+            // add the data to the array
+            { $push: { reactions: body } },
+            // return the updated thought
+            { new: true, runValidators: true }
+        )
+            .then(dbThoughtData => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: 'No thought found with this id!' });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => res.json(err));
+    },
+
+    // remove a reaction
+    // delete the reaction and update the thought
+    removeReaction({ params }, res) {
+        // finds the thought document and updates it
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId },
+            // remove the specific reaction from the thought array
+            { $pull: { reactions: { reactionId: params.reactionId } } },
+            // returns the updated thought object
+            { new: true }
+        )
+            .then(dbThoughtData => res.json(dbThoughtData))
+            .catch(err => res.json(err));
+    },
 
 };
 
