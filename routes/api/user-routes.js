@@ -7,22 +7,28 @@ const {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    addFriend,
+    deleteFriend
 } = require('../../controllers/user-controller');
 
-// Set up GET all and POST at /api/users
+// routes at /api/users
 router
     .route('/')
-    // provide the name of the controller method as the callback of each route
     .get(getAllUsers)
     .post(createUser);
 
-// Set up GET one, PUT, and DELETE at /api/users/:id
+// routes at /api/users/:id
 router
     .route('/:id')
-    // provide the name of the controller method as the callback of each route
     .get(getUserById)
     .put(updateUser)
     .delete(deleteUser);
+
+// routes at /api/users/:userId/friends/:friendId
+router
+    .route('/:userId/friends/:friendId')
+    .put(addFriend)
+    .delete(deleteFriend);
 
 module.exports = router;
