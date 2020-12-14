@@ -45,6 +45,7 @@ The application will start and indicate the server is running.
 2. Once the server is running, route testing can be completed through Insomnia Core to test out the API routes in the ```/routes``` folder.  Per ```./server.js``` and ```/routes/index.js```, all routes will be located at ```localhost:3001/api```.  See ```/routes/api/index.js``` for applicable paths to CRUD functionality.
 
 3.  A walk-through video demonstrating all functionality is located at the following link:
+https://drive.google.com/file/d/1PVITT_94G2f2_xRDP963NwnSUnf5yNno/view?usp=sharing
 
 ## Contributing <a name="contributing"></a>
 Contributions are welcome.  Please contact me regarding improvements, questions, or comments you would like to make.
